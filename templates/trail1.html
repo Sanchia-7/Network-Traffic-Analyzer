@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Traffic Info</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        #video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+        }
+        .container {
+            max-width: 70%;
+            margin: 150px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top:10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .info {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .info p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .header-group {
+            text-align: justify;
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+            text-align: left;
+        }
+        .header-group h2 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .header-group ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .header-group li {
+            margin-bottom: 5px;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay loop muted id="video-background">
+        <source src="https://www.shutterstock.com/shutterstock/videos/1037441663/preview/stock-footage-colorful-plexus-abstract-background.webm" type="video/webm">
+    </video>
+    <div class="container">
+        <h1>Website Traffic Information</h1>
+        <form action="/" method="post">
+            <label for="url">Enter URL:</label>
+            <input type="text" id="url" name="url" required>
+            <button type="submit">Get Traffic Info</button>
+            <button type="button" onclick="clearOutput()">Clear</button>
+        </form>
+        <div class="info" id="trafficInfo">
+            {% if traffic_info %}
+            <div class="header-group1">
+                <h2>General Information</h2>
+                <p ><strong>URL:</strong> {{ traffic_info.url }}</p>
+                <p><strong>IP Address:</strong> {{ traffic_info.ip_address }}</p>
+                <p><strong>Status Code:</strong> {{ traffic_info.status_code }} - {{ traffic_info.status_message }}</p>
+            </div>
+                <div class="header-group">
+                    <h2>Headers</h2>
+                    {% for group, headers in traffic_info.headers.items() %}
+                        <ul>
+                            <li><strong>{{ group }}</strong></li>
+                            {% for header, value in headers.items() %}
+                                <li>{{ header }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        function clearOutput() {
+            var outputDiv = document.getElementById("trafficInfo");
+            outputDiv.innerHTML = ""; 
+        }
+    </script>
+</body>
+</html>
